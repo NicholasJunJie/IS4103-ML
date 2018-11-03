@@ -5,8 +5,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
 
-#pip install flask numpy pandas sklearn scipy scikit-learn  
-
 def impute_credit_history(cols):
     credit_history = cols[0]
     applicant_income = cols[1]
@@ -19,10 +17,11 @@ def impute_credit_history(cols):
         return credit_history
 
 # Read dataset and store in dataframe
-train = pd.read_csv('lib/data/train_ds.csv')
+train = pd.read_csv('library/data/train_ds.csv')
 
 ## BEGIN DATA CLEANSING
-# For credit_history == NaN, if applicant_income >= 10000, then set credit_history = 1 [DERIVE FROM FIGURE 4]
+
+# For credit_history == NaN, if applicant_income >= 10000, then set credit_history = 1 
 train['Credit_History'] = train[['Credit_History','ApplicantIncome']].apply(impute_credit_history,axis=1)
 
 train.drop_duplicates(inplace=True)
@@ -52,11 +51,8 @@ logmodel.fit(X_train,y_train)
 
 predictions = logmodel.predict(X_test)
 
-print(predictions)
-
 #serializing our model to a file called model.pkl
 pickle.dump(logmodel, open("model.pkl","wb"))
-print(logmodel)
 
 # print(classification_report(y_test,predictions))
 
